@@ -12,9 +12,6 @@ from .filters import FoodFilter
 import pprint
 from django.template import engines
 
-
-
-
 @login_required(login_url='login')
 
 def HomePageView(request):
