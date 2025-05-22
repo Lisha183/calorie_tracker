@@ -76,7 +76,7 @@ def LoginPage(request):
 			else:
 				messages.info(request,'Username or password is incorrect')
 		context = {}
-		return render(request,'myapp/login.html',context)
+		return render(request,'login.html',context)
 
 def LogOutPage(request):
 	logout(request)
@@ -185,3 +185,7 @@ def add_meal(request, food_id):
 
     return redirect('food_list') 
 
+from django.shortcuts import render
+
+def test_view(request):
+    return render(request, 'login.html')
