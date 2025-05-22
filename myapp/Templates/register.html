@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container d-flex align-items-center justify-content-center min-vh-100">
+    <div class="card p-5 shadow-lg rounded-4 w-100" style="max-width: 450px;">
+        <h2 class="text-center mb-4 text-primary">Create an Account</h2>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password1.label_tag }}
+                {{ form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                {{ form.password2.label_tag }}
+                {{ form.password2 }}
+            </div>
+
+            <button type="submit" class="btn btn-success w-100">Register</button>
+        </form>
+
+        {% if form.errors %}
+        <div class="alert alert-danger mt-3">
+            <ul class="mb-0">
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        <div class="text-center mt-4">
+            <small>Already have an account?</small><br>
+            <a href="{% url 'login' %}" class="btn btn-link">Login here</a>
+        </div>
+    </div>
+</div>
+
+<script>
+  const formFields = document.querySelectorAll('input');
+  if (formFields.length > 1) {
+      formFields[1].placeholder = 'Username';
+      formFields[2].placeholder = 'Email';
+      formFields[3].placeholder = 'Enter password';
+      formFields[4].placeholder = 'Confirm password';
+
+      formFields.forEach(field => {
+          field.classList.add('form-control');
+      });
+  }
+</script>
+{% endblock content %}

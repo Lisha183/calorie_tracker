@@ -1,0 +1,69 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+
+    <h3 id="username" class="text-left-headline">
+        Hi, {{ request.user }} 
+        <sub><a href="{% url 'logout' %}" class="text-danger ms-2">(Logout)</a></sub>
+    </h3>
+
+    <div class="row mt-4 g-4">
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm text-center p-4 h-100">
+                <h5 class="mb-3 text-primary">Total Calories Consumed Today</h5>
+                <p class="fs-4">{{ total_calorie }}</p>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12">
+            <div class="card shadow-sm text-center p-4 h-100">
+                <h5 class="mb-3 text-success">Calorie Goal For Today</h5>
+                <p class="fs-4">{{ calorie_goal }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card text-center text-white bg-dark mt-5 shadow" style="border-radius: 12px;">
+        <div class="card-body py-4">
+            <p class="fs-5 mb-0">
+                {% if calorie_goal_status > 0 %}
+                    You need <strong>{{ calorie_goal_status }}</strong> more calories to reach your goal.
+                {% elif calorie_goal == 0 %}
+                    <a href="{% url 'profile' %}" class="text-warning">Enter your calorie goal for the day</a>
+                {% else %}
+                    You surpassed your goal by <strong>{{ over_calorie }}</strong> calories.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <h2 class="text-center mt-5 mb-4 headline">All Food Consumed Today</h2>
+
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-dark">
+                <tr>
+                    <th>Food</th>
+                    <th>Calorie</th>
+                    <th>Count</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for food in food_selected_today %}
+                <tr>
+                    <td>{{ food.food.name }}</td>
+                    <td>{{ food.calorie_amount }}</td>
+                    <td>{{ food.amount }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">No food items recorded for today yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock content %}

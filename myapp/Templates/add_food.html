@@ -1,0 +1,81 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+  <div class="row">
+
+    <div class="col-lg-6 mb-4">
+      <div class="login">
+        <div class="login-screen">
+          <div class="app-title">
+            <h1 class="headline">Input food</h1>
+          </div>
+
+          <form method="POST" action="" class="login-form">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group">
+                <label class="form-labels">{{ field.label }}</label>
+                {{ field }}
+              </div>
+            {% endfor %}
+            <input class="btn btn-primary mt-2" type="submit" value="Select">
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      <div class="login mb-3">
+        <div class="login-screen">
+          <form method="get" class="mb-3">
+            <h1 class="headline">Filter Food</h1>
+            {{ myFilter.form.as_p }}
+            <button class="btn btn-secondary mt-2" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+
+      <h1 class="headline">All Food Items</h1>
+      <div class="table-responsive">
+        <table class="table table-bordered text-center mt-3">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Food Name</th>
+              <th scope="col">Calories</th>
+              <th scope="col">Quantity</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for food in food_items %}
+              <tr>
+                <td>{{ food.name }}</td>
+                <td>{{ food.calorie }}</td>
+                <td>
+                    {{ food.quantity }}
+                    <form method="POST" action="{% url 'add_meal' food.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <select name="meal_type" class="form-select d-inline w-auto">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="snack">Snack</option>
+                            <option value="dinner">Dinner</option>
+                          </select>
+
+                      </form>
+                </td>
+              </tr>
+            {% empty %}
+              <tr>
+                <td colspan="3">No food items found.</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock content %}

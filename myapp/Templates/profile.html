@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <h2 class="text-center mb-4 text-primary">👤 Your Profile</h2>
+
+    <div class="row g-4">
+
+        <div class="col-lg-5">
+            <div class="card shadow p-4">
+                <h4 class="text-center mb-4">Welcome, {{ request.user }}!</h4>
+                
+                <form method="POST" action="">
+                    {% csrf_token %}
+                    <h5 class="mb-2">🎯 Calorie Goal for Today</h5>
+                    {% for field in form %}
+                        <div class="mb-3">
+                            {{ field.label_tag }}
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                    <button type="submit" class="btn btn-success w-100">Set Goal</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-lg-7">
+            <div class="card shadow p-4">
+                <h5 class="text-center mb-4">📅 Records From Past Week</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover text-center">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Date</th>
+                                <th>Calories Consumed</th>
+                                <th>Calorie Goal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in records %}
+                            <tr>
+                                <td>{{ record.date }}</td>
+                                <td>{{ record.total_calorie }}</td>
+                                <td>{{ record.calorie_goal }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <h4 class="text-center text-primary mb-4">🍽️ All Food Items</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered table-hover text-center">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Calories</th>
+                        <th>Quantity</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for food in food_items %}
+                    <tr>
+                        <td>{{ food.name }}</td>
+                        <td>{{ food.calorie }}</td>
+                        <td>{{ food.quantity }}</td>
+                        <td>
+                            <a class="btn btn-sm btn-info" href="{% url 'update_food' food.id %}">Update</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-sm btn-danger" href="{% url 'delete_food' food.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
