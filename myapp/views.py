@@ -9,6 +9,10 @@ from django.utils import timezone
 from datetime import date
 from datetime import datetime
 from .filters import FoodFilter
+import pprint
+from django.template import engines
+
+
 
 
 @login_required(login_url='login')
@@ -76,6 +80,7 @@ def LoginPage(request):
 			else:
 				messages.info(request,'Username or password is incorrect')
 		context = {}
+		pprint.pprint(engines['django'].engine.dirs)
 		return render(request,'login.html',context)
 
 def LogOutPage(request):
