@@ -43,7 +43,7 @@ def HomePageView(request):
         'food_selected_today': all_food_today,
     }
 
-    return render(request, 'home.html', context)
+    return render(request, 'myapp/home.html', context)
 
 def RegisterPage(request):
 	if request.user.is_authenticated:
@@ -59,7 +59,7 @@ def RegisterPage(request):
 				return redirect('login')
 
 		context = {'form':form}
-		return render(request,'register.html',context)
+		return render(request,'myapp/register.html',context)
 
 def LoginPage(request):
 	if request.user.is_authenticated:
@@ -100,7 +100,7 @@ def select_food(request):
 		form = SelectFoodForm(request.user)
 
 	context = {'form':form,'food_items':food_items}
-	return render(request, 'select_food.html',context)
+	return render(request, 'myapp/select_food.html',context)
 
 def add_food(request):
 
@@ -120,7 +120,7 @@ def add_food(request):
 	myFilter = FoodFilter(request.GET,queryset=food_items)
 	food_items = myFilter.qs
 	context = {'form':form,'food_items':food_items,'myFilter':myFilter}
-	return render(request,'add_food.html',context)
+	return render(request,'myapp/add_food.html',context)
 
 
 @login_required
@@ -137,7 +137,7 @@ def update_food(request,pk):
 	myFilter = FoodFilter(request.GET,queryset=food_items)
 	context = {'form':form,'food_items':food_items,'myFilter':myFilter}
 
-	return render(request,'add_food.html',context)
+	return render(request,'myapp/add_food.html',context)
 
 
 @login_required
@@ -147,7 +147,7 @@ def delete_food(request,pk):
 		food_item.delete()
 		return redirect('profile')
 	context = {'food':food_item,}
-	return render(request,'delete_food.html',context)
+	return render(request,'myapp/delete_food.html',context)
 
 
 @login_required
@@ -169,7 +169,7 @@ def ProfilePage(request):
 	records=Profile.objects.filter(date__gte=some_day_last_week,date__lt=timezone.now().date(),person_of=request.user)
 
 	context = {'form':form,'food_items':food_items,'records':records}
-	return render(request, 'profile.html',context)
+	return render(request, 'myapp/profile.html',context)
 
 def add_meal(request, food_id):
     if request.method == 'POST':
